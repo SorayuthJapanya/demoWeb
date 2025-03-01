@@ -6,6 +6,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './components/Home.jsx'
 import RemoveBG from './components/RemoveBG.jsx'
 import Upload from './components/upload.jsx'
+import HITL from './components/HITL.jsx'
+import ResultClass from './components/ResultClass.jsx'
+
 
 
 
@@ -21,6 +24,14 @@ const router = createBrowserRouter([
   {
     path: '/upload',
     element: <Upload/>
+  },
+  {
+    path: '/hmitl',
+    element: <HITL/>
+  },
+  {
+    path: '/result',
+    element: <ResultClass/>
   },
 ])
 

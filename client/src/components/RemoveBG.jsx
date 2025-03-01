@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom"; // ใช้ useNavigate แทน useHistory
 import axios from "axios";
 import Navbar from "./Navbar";
 import { ClipLoader } from "react-spinners";
 
 const RemoveBG = () => {
     const location = useLocation();
+    const navigate = useNavigate(); // ใช้ useNavigate สำหรับ React Router v6
     const { image, file } = location.state || { image: null, file: null };
     const [processedImage, setProcessedImage] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -36,11 +37,8 @@ const RemoveBG = () => {
             const resultImage = `http://localhost:5000/${response.data.imageResult}`;
             setProcessedImage(resultImage);
 
-            // เพิ่มข้อมูลลงในประวัติ
-            // setHistory((prevHistory) => [
-            //     ...prevHistory,
-            //     { original: image, processed: resultImage, timestamp: new Date().toLocaleString() },
-            // ]);
+            // ส่งภาพที่ประมวลผลแล้วไปยังหน้า HITL
+            navigate("/hmitl", { state: { processedImage: resultImage } }); // ส่งภาพไปยังหน้า HITL
         } catch (error) {
             console.error("Error removing background:", error);
             setError("Error removing background. Please try again.");
@@ -70,40 +68,6 @@ const RemoveBG = () => {
                     <p className="text-center text-red-500 mb-4">{error}</p>
                 )}
 
-                {/* Image Display */}
-                <div className="flex flex-col md:flex-row gap-8">
-                    {/* Original Image (Left Side) */}
-                    {image && (
-                        <div className="flex-1 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                            <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">
-                                Original Image
-                            </h2>
-                            <div className="flex justify-center">
-                                <img
-                                    src={image}
-                                    alt="Uploaded"
-                                    className="max-w-full max-h-80 w-auto h-auto rounded-lg object-contain"
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Processed Image (Right Side) */}
-                    {processedImage && (
-                        <div className="flex-1 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                            <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">
-                                Processed Image
-                            </h2>
-                            <div className="flex justify-center">
-                                <img
-                                    src={processedImage}
-                                    alt="Processed"
-                                    className="max-w-full max-h-80 w-auto h-auto rounded-lg object-contain"
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
             </div>
         </div>
     );

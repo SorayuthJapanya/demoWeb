@@ -17,7 +17,7 @@ router.get('/getClass', listAllClass)
 router.post('/createClass',upload.none(), createClass)
 
 // Get Find Class
-router.get('/findClass',upload.none(), findClass)
+router.post('/findClass',upload.none(), findClass)
 
 
 module.exports = router
